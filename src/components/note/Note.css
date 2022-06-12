@@ -1,4 +1,5 @@
 .note {
+    position: relative;
     background: #ffffff;
     width: 240px;
     border-radius: 7px;
@@ -22,6 +23,17 @@
     word-wrap: break-word;
 }
 
+.note input{
+    border-color: rgb(165, 165, 165);
+    width: 80%;
+    height: 100%;
+    padding: 4px 10px;
+    margin:  2px 5px;
+    outline: none;
+    font-size: 1rem;
+    resize: none;
+    border-radius: 5px;
+}
 .delete_button {
     position: relative;
     float: right;
@@ -42,4 +54,22 @@
     cursor: pointer;
     outline: none;
     padding: 5px;
+}
+
+.save_button{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    right: 18px;
+    bottom: -18px;
+    background: rgb(255, 200, 18);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    box-shadow: 0 1px 3px rgb(165, 165, 165);
+    cursor: pointer;
+    outline: none;
 }

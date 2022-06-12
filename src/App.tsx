@@ -24,6 +24,10 @@ function App() {
             });
         };
 
+        const editNotes = () => {
+            
+        }
+
   return (
     <div className="App">
       <Header />

@@ -58,7 +58,7 @@ const InputArea = ({ onAdd }:any) => {
               placeholder="Take a note..."
               onChange={handleChange}
               rows={isExpanded ? 3 : 1}
-          ></textarea>
+          />
                 </p>
                 <button onClick={submitButton}>+</button>
             </form>
