@@ -1,9 +1,15 @@
 import React from 'react';
+import "./Count.css"
 
-const Count = ({count}:any) => {
+const Count = ({notes}:any) => {
+
+
+
     return (
         <div className="count">
-            <h4>{count}</h4>
+            <h4>
+                {notes.length === 0 ? "Empty" : `Showing ${notes.length} Notes in Database`}
+            </h4>
         </div>
     );
 };

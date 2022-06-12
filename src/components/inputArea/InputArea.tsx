@@ -1,7 +1,12 @@
 import {ChangeEvent, useState} from "react";
 import "./InputArea.css"
 
-const InputArea = () => {
+export type noteType = {
+    title: string
+    content: string
+}
+
+const InputArea = ({ onAdd }:any) => {
 
     const [isExpanded, setExpanded] = useState(false);
 
@@ -10,7 +15,28 @@ const InputArea = () => {
         content: "",
     });
 
+    const handleChange = (event:ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = event.target;
+        setNote((preValue) => {
+            return {
+                ...preValue,
+                [name]: value,
+            };
+        });
+    };
 
+    const handleExpanded = () => {
+        setExpanded(true);
+    };
+
+    const submitButton = (event:any) => {
+        onAdd(note);
+        setNote({
+            title: "",
+            content: "",
+        });
+        event.preventDefault();
+    };
 
     return (
         <div>
@@ -21,19 +47,20 @@ const InputArea = () => {
                         type="text"
                         placeholder="Title"
                         name="title"
+                        onChange={handleChange}
                     />
                 )}
                 <p>
           <textarea
               value={note.content}
+              onClick={handleExpanded}
               name="content"
               placeholder="Take a note..."
-
+              onChange={handleChange}
               rows={isExpanded ? 3 : 1}
           ></textarea>
                 </p>
-                <button >
-                </button>
+                <button onClick={submitButton}>+</button>
             </form>
         </div>
     );

@@ -22,7 +22,7 @@
     word-wrap: break-word;
 }
 
-.note button {
+.delete_button {
     position: relative;
     float: right;
     color: #f88651;
@@ -30,4 +30,16 @@
     background: none;
     cursor: pointer;
     outline: none;
+    padding: 5px;
+}
+
+.edit_button {
+    position: relative;
+    float: right;
+    color: rgb(255, 200, 18);
+    border: none;
+    background: none;
+    cursor: pointer;
+    outline: none;
+    padding: 5px;
 }
