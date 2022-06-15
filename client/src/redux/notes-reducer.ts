@@ -27,6 +27,7 @@ type notesType = {
 
 let initState = {
     notes: [] as Array<notesType>,
+    tags: []
 }
 
 export type NotesStateType = typeof initState
@@ -61,14 +62,12 @@ export const notesReducer = (state:NotesStateType = initState, action: unionType
             return stateCopy
         }
         case "SET-TAG":{
-            return {
-                ...state,
-                 notes: state.notes.filter(n => {
-                         return n.title.split('#')[1]?.split(" ")[0] === action.tag
-                             || n.content.split('#')[1]?.split(" ")[0] === action.tag
 
-                 })
-            }
+            return   {
+                ...state,
+                tags: state.notes.map(n=> n.title.match(/#\w+/gm)
+                        || n.content.match(/#\w+/gm))}
+
         }
         default:
             return state

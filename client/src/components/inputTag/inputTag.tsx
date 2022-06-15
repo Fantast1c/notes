@@ -14,11 +14,14 @@ const InputTag = () => {
 
     const handleChangeTag = (event: ChangeEvent<HTMLInputElement>) =>{
         setTag(event.currentTarget.value)
-        console.log(event.currentTarget.value)
     }
     const searchByTag = () =>{
         dispatch(setTagAC(tag))
     }
+
+    console.log( state.tags.flat().filter((elem, pos)=> {
+        return state.tags.flat().indexOf(elem) == pos;
+    }))
 
     return (
         <div className="input_wrapper">
