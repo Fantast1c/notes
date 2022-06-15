@@ -30,11 +30,8 @@ const InputArea = ({ onAdd }:any) => {
     };
 
     const submitButton = (event:any) => {
-        onAdd(note);
-        setNote({
-            title: "",
-            content: "",
-        });
+        onAdd(note.title, note.content);
+        setNote({title: "", content: ""})
         event.preventDefault();
     };
 

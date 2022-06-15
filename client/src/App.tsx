@@ -1,48 +1,37 @@
-import React, {useEffect, useState} from 'react';
 import './App.css';
 import Header from "./components/header/Header";
 import InputArea, {noteType} from "./components/inputArea/InputArea";
 import Count from "./components/count/Count";
 import Note from "./components/note/Note";
 import Footer from "./components/footer/Footer";
-import axios from "axios";
+import {useDispatch, useSelector} from "react-redux";
+import {AppRootStateType} from "./redux/store";
+import {addNoteAC, deleteNoteAC, NotesStateType} from "./redux/notes-reducer";
 
-function App() {
+ const App = () => {
 
-    useEffect(()=>{
-        axios.get('/')
-            .then(response => {
-                    return response.data
-                }
-            )
-    },[])
+     const dispatch = useDispatch()
+     // @ts-ignore
+     const state = useSelector<AppRootStateType, NotesStateType>(state => state.notes)
 
-        const [notes, setNotes] = useState([]);
-
-        const addNote = (note:noteType) => {
-            //@ts-ignore
-            setNotes((prevValue) => {
-                return [...prevValue, note];
-            });
+        const addNote = (title:string, content:string) => {
+          dispatch(addNoteAC(title, content))
         };
 
         const deleteNotes = (id:number) => {
-            setNotes((preValue) => {
-                return [...preValue.filter((note, index) => index !== id)];
-            });
+            dispatch(deleteNoteAC(id))
         };
-
   return (
     <div className="App">
       <Header />
-        <Count
-            notes = {notes}
-        />
+        <Count />
         <InputArea onAdd={addNote} />
-      {notes.map((note:any, index) => (
+
+
+      {state.notes.map((note) => (
           <Note
-              key={index}
-              id={index}
+              key = {note.id}
+              id={note.id}
               title={note.title}
               content={note.content}
               onDelete={deleteNotes}
@@ -51,6 +40,6 @@ function App() {
       <Footer />
     </div>
   );
-}
+};
 
 export default App;
