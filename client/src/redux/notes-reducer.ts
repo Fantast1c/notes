@@ -13,7 +13,11 @@ type deleteNoteAT = {
     type:"DELETE-NOTE"
     id:number
 }
-type unionType = addNoteAT | editNoteAT | deleteNoteAT
+type setTagAT = {
+    type:"SET-TAG"
+    tag: string
+}
+type unionType = addNoteAT | editNoteAT | deleteNoteAT | setTagAT
 
 type notesType = {
     id: number
@@ -23,7 +27,6 @@ type notesType = {
 
 let initState = {
     notes: [] as Array<notesType>,
-    editMode: false
 }
 
 export type NotesStateType = typeof initState
@@ -57,6 +60,16 @@ export const notesReducer = (state:NotesStateType = initState, action: unionType
             }
             return stateCopy
         }
+        case "SET-TAG":{
+            return {
+                ...state,
+                 notes: state.notes.filter(n => {
+                         return n.title.split('#')[1]?.split(" ")[0] === action.tag
+                             || n.content.split('#')[1]?.split(" ")[0] === action.tag
+
+                 })
+            }
+        }
         default:
             return state
     }
@@ -65,3 +78,4 @@ export const notesReducer = (state:NotesStateType = initState, action: unionType
 export const addNoteAC = (title:string, content:string) =>({type:"ADD-NOTE", title, content})
 export const editNoteAC = (title:string, content:string, id:number) =>({type:"EDIT-NOTE", title, content, id})
 export const deleteNoteAC = (id:number) =>({type:"DELETE-NOTE", id})
+export const setTagAC = (tag:string) =>({type:"SET-TAG", tag})

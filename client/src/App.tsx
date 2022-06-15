@@ -7,6 +7,7 @@ import Footer from "./components/footer/Footer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./redux/store";
 import {addNoteAC, deleteNoteAC, NotesStateType} from "./redux/notes-reducer";
+import InputTag from "./components/inputTag/inputTag";
 
  const App = () => {
 
@@ -26,8 +27,7 @@ import {addNoteAC, deleteNoteAC, NotesStateType} from "./redux/notes-reducer";
       <Header />
         <Count />
         <InputArea onAdd={addNote} />
-
-
+        <InputTag/>
       {state.notes.map((note) => (
           <Note
               key = {note.id}
