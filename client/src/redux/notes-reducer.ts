@@ -15,7 +15,6 @@ type deleteNoteAT = {
 }
 type setTagAT = {
     type:"SET-TAG"
-    tag: string
 }
 type unionType = addNoteAT | editNoteAT | deleteNoteAT | setTagAT
 
@@ -77,4 +76,4 @@ export const notesReducer = (state:NotesStateType = initState, action: unionType
 export const addNoteAC = (title:string, content:string) =>({type:"ADD-NOTE", title, content})
 export const editNoteAC = (title:string, content:string, id:number) =>({type:"EDIT-NOTE", title, content, id})
 export const deleteNoteAC = (id:number) =>({type:"DELETE-NOTE", id})
-export const setTagAC = (tag:string) =>({type:"SET-TAG", tag})
+export const setTagAC = () =>({type:"SET-TAG"})

@@ -10,22 +10,25 @@ const InputTag = () => {
     const state = useSelector<AppRootStateType, NotesStateType>(state => state.notes)
     const dispatch = useDispatch()
 
-    const [tag, setTag] = useState("")
-
-    const handleChangeTag = (event: ChangeEvent<HTMLInputElement>) =>{
-        setTag(event.currentTarget.value)
-    }
     const searchByTag = () =>{
-        dispatch(setTagAC(tag))
+        dispatch(setTagAC())
     }
 
-    console.log( state.tags.flat().filter((elem, pos)=> {
+    let uniqueTags = state.tags.flat().filter((elem, pos)=> {
+        return state.tags.flat().indexOf(elem) == pos;
+    })
+
+    console.log(state.tags.flat().filter((elem, pos)=> {
         return state.tags.flat().indexOf(elem) == pos;
     }))
 
     return (
         <div className="input_wrapper">
-                <input className="input_tag" placeholder="Введите тег" onChange={handleChangeTag} />
+            {uniqueTags.map((t)=>{
+              return  <div>
+                  {t}
+                </div>
+            })}
                 <button className="button_tag" onClick={searchByTag}>#</button>
         </div>
     );
