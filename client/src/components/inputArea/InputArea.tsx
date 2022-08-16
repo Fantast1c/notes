@@ -1,5 +1,7 @@
 import {ChangeEvent, useState} from "react";
 import "./InputArea.css"
+import {setTagAC} from "../../redux/notes-reducer";
+import {useDispatch} from "react-redux";
 
 export type noteType = {
     title: string
@@ -7,6 +9,8 @@ export type noteType = {
 }
 
 const InputArea = ({ onAdd }:any) => {
+
+    const dispatch = useDispatch()
 
     const [isExpanded, setExpanded] = useState(false);
 
@@ -30,8 +34,10 @@ const InputArea = ({ onAdd }:any) => {
     };
 
     const submitButton = (event:any) => {
+        if(note.content || note.title)
         onAdd(note.title, note.content);
         setNote({title: "", content: ""})
+        dispatch(setTagAC())
         event.preventDefault();
     };
 

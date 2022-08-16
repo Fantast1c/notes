@@ -6,7 +6,7 @@ import Note from "./components/note/Note";
 import Footer from "./components/footer/Footer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./redux/store";
-import {addNoteAC, deleteNoteAC, NotesStateType} from "./redux/notes-reducer";
+import {addNoteAC, deleteNoteAC, NotesStateType, setTagAC} from "./redux/notes-reducer";
 import InputTag from "./components/inputTag/inputTag";
 
  const App = () => {
@@ -21,6 +21,7 @@ import InputTag from "./components/inputTag/inputTag";
 
         const deleteNotes = (id:number) => {
             dispatch(deleteNoteAC(id))
+            dispatch(setTagAC())
         };
   return (
     <div className="App">

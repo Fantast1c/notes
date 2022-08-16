@@ -1,5 +1,8 @@
 .input_wrapper {
     position: relative;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
     width: 350px;
     margin: 32px auto 50px auto;
     background: #fff;
@@ -8,30 +11,9 @@
     box-shadow: 0 1px 7px rgb(128, 128, 128);
 }
 
-.input_tag {
-    width: 100%;
-    border: none;
-    padding: 4px 10px;
-    margin-bottom: 20px;
-    outline: none;
-    font-size: 1rem;
-    resize: none;
+.tags{
+    cursor: pointer;
+    padding: 3px;
+
 }
 
-.button_tag {
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    right: 18px;
-    bottom: -18px;
-    background: rgb(255, 200, 18);
-    color: #fff;
-    border: none;
-    border-radius: 50%;
-    width: 36px;
-    height: 36px;
-    box-shadow: 0 1px 3px rgb(165, 165, 165);
-    cursor: pointer;
-    outline: none;
-}
