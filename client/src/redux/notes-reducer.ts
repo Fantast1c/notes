@@ -16,7 +16,11 @@ type deleteNoteAT = {
 type setTagAT = {
     type:"SET-TAG"
 }
-type unionType = addNoteAT | editNoteAT | deleteNoteAT | setTagAT
+type filterOnTagAT = {
+    type:"SET-FILTER-TAG"
+    index:number
+}
+type unionType = addNoteAT | editNoteAT | deleteNoteAT | setTagAT | filterOnTagAT
 
 type notesType = {
     id: number
@@ -76,6 +80,16 @@ export const notesReducer = (state:NotesStateType = initState, action: unionType
            }
             return uniqueTag
         }
+
+        case "SET-FILTER-TAG" :{
+            let stateCopy = {...state}
+            let tag = stateCopy.tags.find((elem, index) => index === action.index)
+            // @ts-ignore
+            let filtered = stateCopy.notes.filter((el)=>el.title.match(/#\w+/gm) == tag || el.content.match(/#\w+/gm) == tag)
+            // @ts-ignore
+            console.log(...stateCopy.notes.map((el)=>el.title.indexOf(tag) !== -1))
+            return {...stateCopy, notes:  filtered}
+        }
         default:
             return state
     }
@@ -85,3 +99,4 @@ export const addNoteAC = (title:string, content:string) =>({type:"ADD-NOTE", tit
 export const editNoteAC = (title:string, content:string, id:number) =>({type:"EDIT-NOTE", title, content, id})
 export const deleteNoteAC = (id:number) =>({type:"DELETE-NOTE", id})
 export const setTagAC = () =>({type:"SET-TAG"})
+export const setFilterOnTagAC = (index:number) =>({type:"SET-FILTER-TAG", index})
