@@ -61,12 +61,19 @@ export const notesReducer = (state:NotesStateType = initState, action: unionType
             return stateCopy
         }
         case "SET-TAG":{
-
-            return   {
+    let stateCopy =  {
                 ...state,
-                tags: state.notes.map(n=> n.title.match(/#\w+/gm)
-                        || n.content.match(/#\w+/gm))}
-
+                tags: state.notes.map(n=>
+                    n.title.match(/#\w+/gm)
+                    || n.content.match(/#\w+/gm))
+                    .flat()
+            }
+           let uniqueTag = {...state,
+           tags: stateCopy.tags
+               .filter((el, index)=> {return stateCopy.tags.flat().indexOf(el) === index})
+               .filter(el => el !== null)
+           }
+            return uniqueTag
         }
         default:
             return state

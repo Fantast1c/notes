@@ -11,12 +11,14 @@ import InputTag from "./components/inputTag/inputTag";
 
  const App = () => {
 
+
      const dispatch = useDispatch()
      // @ts-ignore
      const state = useSelector<AppRootStateType, NotesStateType>(state => state.notes)
 
         const addNote = (title:string, content:string) => {
           dispatch(addNoteAC(title, content))
+
         };
 
         const deleteNotes = (id:number) => {
