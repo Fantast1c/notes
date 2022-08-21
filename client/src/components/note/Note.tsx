@@ -16,7 +16,7 @@ const Note = ({title, content, onDelete, id}: any) => {
     }
     const activateViewMode = () => {
       setEditMode(false)
-        dispatch(editNoteAC(title, content, id))
+        dispatch(editNoteAC(titleData, contentData, id))
         dispatch(setTagAC())
     }
     const changeTitle = (e: ChangeEvent<HTMLInputElement>) => {

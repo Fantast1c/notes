@@ -45,12 +45,13 @@ export const notesReducer = (state:NotesStateType = initState, action: unionType
             }
         }
         case "EDIT-NOTE":{
-            const notes = state.notes.find(t => t.id === action.id)
+            let stateCopy = {...state}
+            const notes = stateCopy.notes.find(t => t.id === action.id)
             if (notes) {
                 notes.title = action.title
                 notes.content = action.content
             }
-            return {...state}
+            return stateCopy
         }
 
         case "DELETE-NOTE": {
