@@ -1,3 +1,6 @@
+import { Dispatch } from "redux"
+import {getNotesAPI, postNotesAPI} from "../api/api"
+
 type addNoteAT = {
     type:"ADD-NOTE"
     title:string
@@ -20,7 +23,12 @@ type filterOnTagAT = {
     type:"SET-FILTER-TAG"
     index:number
 }
-type unionType = addNoteAT | editNoteAT | deleteNoteAT | setTagAT | filterOnTagAT
+type setNotesAT ={
+    type:"SET-NOTES"
+    payload: Array<Object>
+}
+
+type unionType = addNoteAT | editNoteAT | deleteNoteAT | setTagAT | filterOnTagAT | setNotesAT
 
 type notesType = {
     id: number
@@ -65,6 +73,9 @@ export const notesReducer = (state:NotesStateType = initState, action: unionType
             }
             return stateCopy
         }
+        case "SET-NOTES":{
+            return {...state, notes:[...action.payload]}
+        }
         case "SET-TAG":{
     let stateCopy =  {
                 ...state,
@@ -95,8 +106,22 @@ export const notesReducer = (state:NotesStateType = initState, action: unionType
     }
 }
 
+export const setNotesAC = (payload:Array<Object>) =>({type:"SET-NOTES", payload})
 export const addNoteAC = (title:string, content:string) =>({type:"ADD-NOTE", title, content})
 export const editNoteAC = (title:string, content:string, id:number) =>({type:"EDIT-NOTE", title, content, id})
 export const deleteNoteAC = (id:number) =>({type:"DELETE-NOTE", id})
 export const setTagAC = () =>({type:"SET-TAG"})
 export const setFilterOnTagAC = (index:number) =>({type:"SET-FILTER-TAG", index})
+
+export const getNoteTC = () => async (dispatch: any) => {
+    debugger
+    let response = await getNotesAPI()
+    dispatch(setNotesAC(response.data))
+}
+
+export const postNoteTC = (id: number, title:string, content:string ) => async (dispatch: any) => {
+    let response = await postNotesAPI(id, title, content)
+    console.log(response);
+    
+            // dispatch(setUserProfileAC(response.data))
+}
