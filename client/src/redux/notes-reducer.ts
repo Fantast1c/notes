@@ -1,8 +1,15 @@
+import { stat } from "fs"
 import { Dispatch } from "redux"
 import {getNotesAPI, postNotesAPI} from "../api/api"
 
 type addNoteAT = {
     type:"ADD-NOTE"
+    title:string
+    content:string
+}
+type postNoteAT = {
+    type:"POST-NOTE"
+    id:number
     title:string
     content:string
 }
@@ -28,7 +35,7 @@ type setNotesAT ={
     payload: any
 }
 
-type unionType = addNoteAT | editNoteAT | deleteNoteAT | setTagAT | filterOnTagAT | setNotesAT
+type unionType = addNoteAT | postNoteAT | editNoteAT | deleteNoteAT | setTagAT | filterOnTagAT | setNotesAT
 
 type notesType = {
     id: number
@@ -55,6 +62,9 @@ export const notesReducer = (state:NotesStateType = initState, action: unionType
                 ...state,
                 notes: [...state.notes, newNote],
             }
+        }
+        case "POST-NOTE":{
+            return state
         }
         case "EDIT-NOTE":{
             let stateCopy = {...state}
@@ -111,20 +121,26 @@ export const notesReducer = (state:NotesStateType = initState, action: unionType
 
 export const setNotesAC = (payload:any) =>({type:"SET-NOTES", payload})
 export const addNoteAC = (title:string, content:string) =>({type:"ADD-NOTE", title, content})
+export const postNoteAC = (id:number,title:string, content:string) =>({type:"POST-NOTE",id, title, content})
 export const editNoteAC = (title:string, content:string, id:number) =>({type:"EDIT-NOTE", title, content, id})
 export const deleteNoteAC = (id:number) =>({type:"DELETE-NOTE", id})
 export const setTagAC = () =>({type:"SET-TAG"})
 export const setFilterOnTagAC = (index:number) =>({type:"SET-FILTER-TAG", index})
 
 export const getNoteTC = () => async (dispatch: any) => {
-    debugger
     let response = await getNotesAPI()
     dispatch(setNotesAC(response))
 }
 
-export const postNoteTC = (id: number, title:string, content:string ) => async (dispatch: any) => {
-    let response = await postNotesAPI(id, title, content)
+export const postNoteTC = (title:string, content:string ) => async (dispatch: any) => {
+    debugger
+    let payload = {id:Date.now(), title, content}
+    let response = await postNotesAPI(payload)
+    dispatch(setNotesAC(response))
     console.log(response);
     
-            // dispatch(setUserProfileAC(response.data))
+    //dispatch(getNoteTC())
+    //dispatch(setTagAC())
+    
+             
 }

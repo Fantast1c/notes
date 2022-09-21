@@ -6,7 +6,7 @@ import Note from "./components/note/Note";
 import Footer from "./components/footer/Footer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./redux/store";
-import {addNoteAC, deleteNoteAC, NotesStateType, setTagAC, getNoteTC} from "./redux/notes-reducer";
+import {addNoteAC, deleteNoteAC, NotesStateType, setTagAC, getNoteTC, postNoteTC} from "./redux/notes-reducer";
 import InputTag from "./components/inputTag/inputTag";
 import { useEffect } from 'react';
 
@@ -18,15 +18,17 @@ import { useEffect } from 'react';
      const state = useSelector<AppRootStateType, NotesStateType>(state => state.notes)
     
      useEffect(()=>{
-      debugger
       // @ts-ignore
       dispatch(getNoteTC())
+      dispatch(setTagAC())
 
      },[])
 
         const addNote = (title:string, content:string) => {
-          dispatch(addNoteAC(title, content))
-
+          debugger
+          //@ts-ignore
+          dispatch(postNoteTC(title, content))
+           
         };
 
         const deleteNotes = (id:number) => {
