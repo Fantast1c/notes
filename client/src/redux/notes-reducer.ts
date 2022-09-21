@@ -25,7 +25,7 @@ type filterOnTagAT = {
 }
 type setNotesAT ={
     type:"SET-NOTES"
-    payload: Array<Object>
+    payload: any
 }
 
 type unionType = addNoteAT | editNoteAT | deleteNoteAT | setTagAT | filterOnTagAT | setNotesAT
@@ -74,7 +74,10 @@ export const notesReducer = (state:NotesStateType = initState, action: unionType
             return stateCopy
         }
         case "SET-NOTES":{
-            return {...state, notes:[...action.payload]}
+            let stateCopy;
+            stateCopy = {...state, notes:action.payload}
+            
+            return stateCopy
         }
         case "SET-TAG":{
     let stateCopy =  {
@@ -106,7 +109,7 @@ export const notesReducer = (state:NotesStateType = initState, action: unionType
     }
 }
 
-export const setNotesAC = (payload:Array<Object>) =>({type:"SET-NOTES", payload})
+export const setNotesAC = (payload:any) =>({type:"SET-NOTES", payload})
 export const addNoteAC = (title:string, content:string) =>({type:"ADD-NOTE", title, content})
 export const editNoteAC = (title:string, content:string, id:number) =>({type:"EDIT-NOTE", title, content, id})
 export const deleteNoteAC = (id:number) =>({type:"DELETE-NOTE", id})
@@ -116,7 +119,7 @@ export const setFilterOnTagAC = (index:number) =>({type:"SET-FILTER-TAG", index}
 export const getNoteTC = () => async (dispatch: any) => {
     debugger
     let response = await getNotesAPI()
-    dispatch(setNotesAC(response.data))
+    dispatch(setNotesAC(response))
 }
 
 export const postNoteTC = (id: number, title:string, content:string ) => async (dispatch: any) => {

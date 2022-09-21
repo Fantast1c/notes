@@ -5,9 +5,14 @@ import cors from 'cors'
 const PORT = process.env.PORT || 3001;
 const server = express();
 
+const allowedOrigins = ['http://localhost:3000'];
+const options = {
+  origin: allowedOrigins
+};
 
 server.use(express.json())
-//server.use(cors)
+server.use(cors(options))
+
 
 let data = fs.readFileSync('data.json')
 
