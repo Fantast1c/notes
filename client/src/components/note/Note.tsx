@@ -2,6 +2,7 @@ import "./Note.css"
 import {ChangeEvent, useState} from "react";
 import {useDispatch} from "react-redux";
 import {editNoteAC, setTagAC} from "../../redux/notes-reducer";
+import {putNoteTC} from "../../redux/notes-reducer"
 
 const Note = ({title, content, onDelete, id}: any) => {
 
@@ -16,8 +17,8 @@ const Note = ({title, content, onDelete, id}: any) => {
     }
     const activateViewMode = () => {
       setEditMode(false)
-        dispatch(editNoteAC(titleData, contentData, id))
-        dispatch(setTagAC())
+        //@ts-ignore
+        dispatch(putNoteTC(id, titleData, contentData))
     }
     const changeTitle = (e: ChangeEvent<HTMLInputElement>) => {
         setTitleData(e.currentTarget.value)

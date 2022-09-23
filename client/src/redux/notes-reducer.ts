@@ -1,10 +1,5 @@
-import {getNotesAPI, postNotesAPI} from "../api/api"
+import {getNotesAPI, postNotesAPI, putNoteAPI, deleteNoteAPI} from "../api/api"
 
-type addNoteAT = {
-    type:"ADD-NOTE"
-    title:string
-    content:string
-}
 type postNoteAT = {
     type:"POST-NOTE"
     id:number
@@ -33,7 +28,7 @@ type setNotesAT ={
     payload: any
 }
 
-type unionType = addNoteAT | postNoteAT | editNoteAT | deleteNoteAT | setTagAT | filterOnTagAT | setNotesAT
+type unionType = postNoteAT | editNoteAT | deleteNoteAT | setTagAT | filterOnTagAT | setNotesAT
 
 type notesType = {
     id: number
@@ -50,17 +45,6 @@ export type NotesStateType = typeof initState
 
 export const notesReducer = (state:NotesStateType = initState, action: unionType) => {
     switch (action.type) {
-        case "ADD-NOTE": {
-            const newNote: notesType = {
-                id: Date.now(),
-                title: action.title,
-                content: action.content
-            }
-            return {
-                ...state,
-                notes: [...state.notes, newNote],
-            }
-        }
         case "POST-NOTE":{
             return state
         }
@@ -105,7 +89,7 @@ export const notesReducer = (state:NotesStateType = initState, action: unionType
             let stateCopy = {...state}
             let tag = stateCopy.tags.find((elem, index) => index === action.index)
             // @ts-ignore
-            let filtered = stateCopy.notes.filter((el)=>el.title.match(/#\w+/gm) == tag || el.content.match(/#\w+/gm) == tag)
+            let filtered = stateCopy.notes.filter((el)=>el.title.match(/#\w+/gm) === tag || el.content.match(/#\w+/gm) == tag)
             // @ts-ignore
             console.log(...stateCopy.notes.map((el)=>el.title.indexOf(tag) !== -1))
             return {...stateCopy, notes:  filtered}
@@ -116,9 +100,8 @@ export const notesReducer = (state:NotesStateType = initState, action: unionType
 }
 
 export const setNotesAC = (payload:any) =>({type:"SET-NOTES", payload})
-export const addNoteAC = (title:string, content:string) =>({type:"ADD-NOTE", title, content})
 export const postNoteAC = (id:number,title:string, content:string) =>({type:"POST-NOTE",id, title, content})
-export const editNoteAC = (title:string, content:string, id:number) =>({type:"EDIT-NOTE", title, content, id})
+export const editNoteAC = (id:number, title:string, content:string) =>({type:"EDIT-NOTE", title, content, id})
 export const deleteNoteAC = (id:number) =>({type:"DELETE-NOTE", id})
 export const setTagAC = () =>({type:"SET-TAG"})
 export const setFilterOnTagAC = (index:number) =>({type:"SET-FILTER-TAG", index})
@@ -128,11 +111,24 @@ export const getNoteTC = () => async (dispatch: any) => {
     dispatch(setNotesAC(response))
     dispatch(setTagAC())
 }
-
 export const postNoteTC = (title:string, content:string ) => async (dispatch: any) => {
-    debugger
     let payload = {id:Date.now(), title, content}
     let response = await postNotesAPI(payload)
     dispatch(setNotesAC(response))
     dispatch(setTagAC())       
+}
+export const putNoteTC = (id:number, titleData: string, contentData: string) => async (dispatch:any, getState: any) => {
+    dispatch(editNoteAC(id, titleData, contentData))
+    dispatch(setTagAC())
+    let response = await putNoteAPI(getState().notes.notes)
+    dispatch(editNoteAC(id, titleData, contentData))
+
+}
+
+export const deleteNoteTC = (id:number) => async (dispatch:any, getState: any) => {
+    dispatch(deleteNoteAC(id))
+    dispatch(setTagAC())
+    let response = await deleteNoteAPI(getState().notes.notes)
+    dispatch(setNotesAC(response))
+    dispatch(setTagAC())
 }

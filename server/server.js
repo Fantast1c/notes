@@ -26,10 +26,25 @@ server.post('/', (req, res)=>{
                 json.push(req.body)
                 fs.writeFile("data.json", JSON.stringify(json),
                 (err, result)=>{
-                        if(err) console.log('error', err);
+                        if(err) console.log('Ошибка записи файла, операция добавления:', err);
                       })
                       res.status(200).json(json)
             });
+})
+server.put('/',(req,res)=>{
+        fs.writeFile("data.json", JSON.stringify(req.body),
+        (err, result)=>{
+                if(err) console.log('Ошибка записи файла, операция изменения:', err);
+              })
+ res.status(200).json(JSON.parse(fs.readFileSync('data.json')))
+})
+
+server.delete('/',(req,res)=>{
+        fs.writeFile("data.json", JSON.stringify(req.body),
+        (err, result)=>{
+                if(err) console.log('Ошибка записи файла, операция удаления:', err);
+              })
+ res.status(200).json(JSON.parse(fs.readFileSync('data.json')))
 })
 
 
