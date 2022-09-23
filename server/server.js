@@ -28,10 +28,8 @@ server.post('/', (req, res)=>{
                 (err, result)=>{
                         if(err) console.log('error', err);
                       })
-                      res.status(200).json(JSON.parse(fs.readFileSync('data.json')))
+                      res.status(200).json(json)
             });
-
-       // res.status(200).json(JSON.parse(data))
 })
 
 

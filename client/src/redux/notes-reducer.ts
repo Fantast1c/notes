@@ -1,5 +1,3 @@
-import { stat } from "fs"
-import { Dispatch } from "redux"
 import {getNotesAPI, postNotesAPI} from "../api/api"
 
 type addNoteAT = {
@@ -75,7 +73,6 @@ export const notesReducer = (state:NotesStateType = initState, action: unionType
             }
             return stateCopy
         }
-
         case "DELETE-NOTE": {
             let stateCopy
             if (state.notes) {
@@ -104,7 +101,6 @@ export const notesReducer = (state:NotesStateType = initState, action: unionType
            }
             return uniqueTag
         }
-
         case "SET-FILTER-TAG" :{
             let stateCopy = {...state}
             let tag = stateCopy.tags.find((elem, index) => index === action.index)
@@ -130,6 +126,7 @@ export const setFilterOnTagAC = (index:number) =>({type:"SET-FILTER-TAG", index}
 export const getNoteTC = () => async (dispatch: any) => {
     let response = await getNotesAPI()
     dispatch(setNotesAC(response))
+    dispatch(setTagAC())
 }
 
 export const postNoteTC = (title:string, content:string ) => async (dispatch: any) => {
@@ -137,10 +134,5 @@ export const postNoteTC = (title:string, content:string ) => async (dispatch: an
     let payload = {id:Date.now(), title, content}
     let response = await postNotesAPI(payload)
     dispatch(setNotesAC(response))
-    console.log(response);
-    
-    //dispatch(getNoteTC())
-    //dispatch(setTagAC())
-    
-             
+    dispatch(setTagAC())       
 }

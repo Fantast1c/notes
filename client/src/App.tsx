@@ -28,6 +28,7 @@ import { useEffect } from 'react';
           debugger
           //@ts-ignore
           dispatch(postNoteTC(title, content))
+    
            
         };
 
