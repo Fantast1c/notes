@@ -1,7 +1,7 @@
 import "./InputTag.css"
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../redux/store";
-import {NotesStateType, setFilterOnTagAC} from "../../redux/notes-reducer";
+import {NotesStateType, filterByTagTC, getNoteTC} from "../../redux/notes-reducer";
 
 const InputTag = () => {
 
@@ -10,9 +10,13 @@ const InputTag = () => {
     const dispatch = useDispatch()
 
     const onTagFilter = (index:number) =>{
-        console.log(index)
-        dispatch(setFilterOnTagAC(index))
+        //@ts-ignore
+        dispatch(filterByTagTC(index))
+    }
 
+    const onTagAll = () =>{
+         //@ts-ignore
+        dispatch(getNoteTC())
     }
 
     return (
@@ -22,6 +26,7 @@ const InputTag = () => {
                   {tag}
                 </div>
             })}
+            <button className="button" onClick={()=>onTagAll()}>ALL</button>
         </div>
     );
 };

@@ -127,15 +127,18 @@ export const postNoteTC = (title:string, content:string ) => async (dispatch: an
 export const putNoteTC = (id:number, titleData: string, contentData: string) => async (dispatch:any, getState: any) => {
     dispatch(editNoteAC(id, titleData, contentData))
     dispatch(setTagAC())
-    dispatch(setTagAC())
     let response = await putNoteAPI(getState().notes.notes)
     dispatch(setNotesAC(response))
 }
-
 export const deleteNoteTC = (id:number) => async (dispatch:any, getState: any) => {
-    debugger
     dispatch(deleteNoteAC(id))
     let response = await deleteNoteAPI(getState().notes.notes)
     dispatch(setNotesAC(response))
     dispatch(setTagAC())
+}
+export const filterByTagTC = (index: number) => async (dispatch:any, getState: any) => {
+    let response = await getNotesAPI()
+    dispatch(setNotesAC(response))
+    dispatch(setFilterOnTagAC(index))
+
 }
