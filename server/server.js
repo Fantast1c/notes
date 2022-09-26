@@ -36,7 +36,10 @@ server.put('/',(req,res)=>{
         (err, result)=>{
                 if(err) console.log('Ошибка записи файла, операция изменения:', err);
               })
- res.status(200).json(JSON.parse(fs.readFileSync('data.json')))
+              fs.readFile('data.json', (err, data) => {
+                res.status(200).json(JSON.parse(data))
+        })
+ 
 })
 
 server.delete('/',(req,res)=>{
@@ -44,7 +47,9 @@ server.delete('/',(req,res)=>{
         (err, result)=>{
                 if(err) console.log('Ошибка записи файла, операция удаления:', err);
               })
- res.status(200).json(JSON.parse(fs.readFileSync('data.json')))
+              fs.readFile('data.json', (err, data) => {
+                res.status(200).json(JSON.parse(data))
+        })
 })
 
 

@@ -15,6 +15,7 @@ export const postNotesAPI = (payload:any) => {
 }
 
 export const putNoteAPI = (payload:any) => {
+    debugger
     return axios.put(`http://localhost:3001`,  payload)
         .then(response => {
             return response.data;
@@ -22,6 +23,7 @@ export const putNoteAPI = (payload:any) => {
 }
 
 export const deleteNoteAPI = (payload:any) => {
+    debugger
     return axios.delete(`http://localhost:3001`, {data: payload})
         .then(response => {
             return response.data;

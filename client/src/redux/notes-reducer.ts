@@ -71,13 +71,20 @@ export const notesReducer = (state:NotesStateType = initState, action: unionType
             return stateCopy
         }
         case "SET-TAG":{
+
+            let titleToTag = state.notes.map(n=>
+                n.title.match(/#\w+/gm)).flat()
+            let contentToTag = state.notes.map(n=>
+                n.content.match(/#\w+/gm)).flat() 
+                let tagCopy = []
+                tagCopy.push(...titleToTag)
+                tagCopy.push(...contentToTag)
+            
     let stateCopy =  {
                 ...state,
-                tags: state.notes.map(n=>
-                    n.title.match(/#\w+/gm)
-                    || n.content.match(/#\w+/gm))
-                    .flat()
+                tags: tagCopy
             }
+
            let uniqueTag = {...state,
            tags: stateCopy.tags
                .filter((el, index)=> {return stateCopy.tags.flat().indexOf(el) === index})
@@ -89,7 +96,7 @@ export const notesReducer = (state:NotesStateType = initState, action: unionType
             let stateCopy = {...state}
             let tag = stateCopy.tags.find((elem, index) => index === action.index)
             // @ts-ignore
-            let filtered = stateCopy.notes.filter((el)=>el.title.match(/#\w+/gm) === tag || el.content.match(/#\w+/gm) == tag)
+            let filtered = stateCopy.notes.filter((el)=>el.title.match(/#\w+/gm) == tag || el.content.match(/#\w+/gm) == tag)
             // @ts-ignore
             console.log(...stateCopy.notes.map((el)=>el.title.indexOf(tag) !== -1))
             return {...stateCopy, notes:  filtered}
@@ -120,14 +127,14 @@ export const postNoteTC = (title:string, content:string ) => async (dispatch: an
 export const putNoteTC = (id:number, titleData: string, contentData: string) => async (dispatch:any, getState: any) => {
     dispatch(editNoteAC(id, titleData, contentData))
     dispatch(setTagAC())
+    dispatch(setTagAC())
     let response = await putNoteAPI(getState().notes.notes)
-    dispatch(editNoteAC(id, titleData, contentData))
-
+    dispatch(setNotesAC(response))
 }
 
 export const deleteNoteTC = (id:number) => async (dispatch:any, getState: any) => {
+    debugger
     dispatch(deleteNoteAC(id))
-    dispatch(setTagAC())
     let response = await deleteNoteAPI(getState().notes.notes)
     dispatch(setNotesAC(response))
     dispatch(setTagAC())
